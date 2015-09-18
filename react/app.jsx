@@ -1,3 +1,5 @@
+var Test = require('./components/test.jsx');
+
 module.exports = React.createClass({
 	getInitialState: function() {
 		return {
@@ -8,7 +10,8 @@ module.exports = React.createClass({
 	render: function() {
 		return (
 			<div>
-				Testing testing testing
+				Testing testing
+				<Test />
 			</div>
 		)
 	}

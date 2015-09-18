@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "author": "Andrew Hoskins",
   "scripts": {
-  	"build": "browserify -t reactify react/bootstrap.jsx --debug | exorcist public/scripts/bundle.js.map > public/scripts/bundle.js"
+  	"build": "browserify -t reactify react/bootstrap.jsx --debug | exorcist public/bundle.js.map > public/bundle.js",
+  	"watch": "watchify -t reactify react/bootstrap.jsx -o public/bundle.js --debug | exorcist public/bundle.js.map"
   }
 }
