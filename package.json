@@ -1,0 +1,8 @@
+{
+  "name": "grind",
+  "version": "0.1.0",
+  "author": "Andrew Hoskins",
+  "scripts": {
+  	"build": "browserify -t reactify react/bootstrap.jsx --debug | exorcist public/scripts/bundle.js.map > public/scripts/bundle.js"
+  }
+}
