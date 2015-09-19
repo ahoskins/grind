@@ -5,9 +5,10 @@ module.exports = React.createClass({
 	// for each in data, create a box, always the same width
 
 	render: function() {
-		var boxes = [];
-		this.props.data.forEach(function(result) {
-			boxes.push(<div className="four columns"><Box data={result} /></div>);
+		var boxes = this.props.data.map(function(result) {
+			return (
+				<div className="four columns"><Box data={result} /></div>
+			);
 		});
 
 		return (

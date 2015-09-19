@@ -7,13 +7,13 @@ var dummyData = [
 		source: 'tsn.ca',
 		url: 'http://tsn.ca/nhl',
 		keywords: 'hockey mcdavid edmonton',
-		sentiment: 0.2
+		sentiment: 0.5
 	},
 	{
 		title: 'Edmonton Oilers Win Stanley Cup',
 		source: 'tsn.ca',
 		url: 'http://tsn.ca/nhl',
-		sentiment: 0.2
+		sentiment: 0.8
 	},
 	{
 		title: 'Edmonton Oilers Win Stanley Cup',
@@ -22,6 +22,9 @@ var dummyData = [
 		sentiment: 0.2
 	}
 ];
+
+// for .NET
+//   - sort the results in order of sentiment!
 
 // Things to figure out
 // 
