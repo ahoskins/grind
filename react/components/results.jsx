@@ -7,7 +7,7 @@ module.exports = React.createClass({
 	render: function() {
 		var boxes = [];
 		this.props.data.forEach(function(result) {
-			boxes.push(<div className="three columns"><Box data={result} /></div>);
+			boxes.push(<div className="four columns"><Box data={result} /></div>);
 		});
 
 		return (
