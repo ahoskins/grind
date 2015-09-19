@@ -1,9 +1,24 @@
 {
-  "name": "grind",
-  "version": "0.1.0",
-  "author": "Andrew Hoskins",
-  "scripts": {
-  	"build": "browserify -t reactify react/bootstrap.jsx --debug | exorcist public/bundle.js.map > public/bundle.js",
-  	"watch": "watchify -t reactify react/bootstrap.jsx -o public/bundle.js --debug | exorcist public/bundle.js.map"
-  }
+	"name": "grind",
+	"version": "0.1.0",
+	"author": "Andrew Hoskins",
+	"dependencies": {
+		"body-parser": "^1.14.0",
+		"browserify": "^11.1.0",
+		"errorhandler": "^1.4.2",
+		"exorcist": "^0.4.0",
+		"express": "^4.13.3",
+		"jade": "^1.11.0",
+		"method-override": "^2.3.5",
+		"reactify": "^1.1.1"
+	},
+	"scripts": {
+			"build": "browserify -t reactify react/bootstrap.jsx --debug | exorcist public/bundle.js.map > public/bundle.js",
+			"watch": "watchify -t reactify react/bootstrap.jsx -o public/bundle.js --debug | exorcist public/bundle.js.map"
+	},
+	"repository" : { 
+		"type" : "git",
+		"url" : "http://github.com/npm/npm.git"
+	},
+	"license" : "ISC"
 }
