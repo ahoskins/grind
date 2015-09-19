@@ -1,0 +1,11 @@
+{
+  "name": "htn",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ahoskins/grind",
+  "dependencies": {
+    "react": "~0.13.3",
+    "skeleton": "~2.0.4",
+    "jquery": "~2.1.4",
+    "radium": "~0.14.1"
+  }
+}
