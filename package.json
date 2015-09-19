@@ -15,7 +15,9 @@
   },
   "scripts": {
     "build": "browserify -t reactify react/bootstrap.jsx --debug | exorcist public/bundle.js.map > public/bundle.js",
-    "watch": "watchify -t reactify react/bootstrap.jsx -o public/bundle.js --debug | exorcist public/bundle.js.map"
+    "watch": "watchify -t reactify react/bootstrap.jsx -o public/bundle.js --debug | exorcist public/bundle.js.map",
+    "start": "node app.js",
+    "postinstall": "bower install && gulp default"
   },
   "repository": {
     "type": "git",
