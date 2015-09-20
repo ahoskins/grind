@@ -31,6 +31,9 @@ module.exports = React.createClass({
 	// when a click is made, handle it in the parent
 	// if there is data in the queue, dequeue, otherwise hit the API
 	produceArticle: function() {
+		if (this.state.query === '') {
+			return;
+		} 
 		this.props.handler(this.state.query);
 	},
 

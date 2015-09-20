@@ -61,7 +61,7 @@ module.exports = React.createClass({
 			negativeList: [],
 			performanceCount: 10,
 			xNextUrl: null,
-			currentQuery: ''
+			currentQuery: null
 		}
 	},
 
@@ -121,23 +121,32 @@ module.exports = React.createClass({
 	*/
 	produceArticle: function(query) {
 		// clear it all because a new search is made
-		if (query !== this.state.currentQuery) {
+		if (query !== this.state.currentQuery || this.state.currentQuery === null) {
 			this.setState({
+				currentQuery: query,
 				articleQueue: [],
 				positiveList: [],
 				neutralList: [],
 				negativeList: [],
-				currentQuery: query
+				xNextUrl: null,
+				performanceCount: 10
+			}, function() {
+					if (this.state.articleQueue.length === 0) {
+						this.request(query).then(this.process);
+					} else {
+						// pop the first, look at sentiment score, and append to a list
+						var item = this.state.articleQueue.shift();
+						this.insertItemIntoList(item);
+					}
 			});
-		}
-
-		// on first load, and on fast clicks maybe
-		if (this.state.articleQueue.length === 0) {
-			this.request(query).then(this.process);
 		} else {
-			// pop the first, look at sentiment score, and append to a list
-			var item = this.state.articleQueue.shift();
-			this.insertItemIntoList(item);
+			if (this.state.articleQueue.length === 0) {
+				this.request(query).then(this.process);
+			} else {
+				// pop the first, look at sentiment score, and append to a list
+				var item = this.state.articleQueue.shift();
+				this.insertItemIntoList(item);
+			}
 		}
 	},
 
