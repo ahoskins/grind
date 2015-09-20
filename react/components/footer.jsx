@@ -3,7 +3,7 @@
 var styles = {
 	footer: {
 		flex: '0 1 40px',
-		borderTop: '2px solid black',
+		borderTop: '2px solid #B0BEC5',
 		backgroundColor: '#B0BEC5',
 		display: 'flex'
 	},

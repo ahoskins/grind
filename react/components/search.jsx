@@ -11,8 +11,18 @@ var styles = {
 		textAlign: 'center'
 	},
 	banner: {
-		backgroundColor: '#03A9F4',
-		fontSize: '2em'
+		// backgroundColor: '#03A9F4',
+		fontSize: '1.5em',
+		padding: 5,
+		borderBottom: '2px solid grey'
+	},
+	right: {
+		float: 'right !important',
+		cursor: 'pointer'
+	},
+	left: {
+		float: 'left !important',
+		cursor: 'pointer'
 	}
 };
 
@@ -42,11 +52,23 @@ module.exports = React.createClass({
 		this.props.handler(this.state.query);
 	},
 
+	ahoskins: function(s) {
+		window.open(s);
+	},
+
 	render: function() {
 		return (
 			<div style={styles.header}>
-				<div style={styles.banner}>Grind</div>
-				<input style={styles.search} onChange={this.handleChange} value={this.state.query} type="email" placeholder="apple iphone, isis, oil price" />
+				<div style={styles.banner}>
+					<span>
+						<i style={styles.left} className="fa fa-github" onClick={this.ahoskins.bind(this, 'http://github.com/ahoskins/grind')}></i>
+					</span>
+					Grind: merging sentiment analysis with news and blogs
+					<span>
+						<i style={styles.right} className="fa fa-github" onClick={this.ahoskins.bind(this, 'http://github.com/udeyrishi/grind-back')}></i>
+					</span>
+				</div>
+				<input style={styles.search} onChange={this.handleChange} value={this.state.query} type="email" placeholder="search for news and blogs" />
 				<button onClick={this.produceArticle}>Article</button>
 			</div>
 		)

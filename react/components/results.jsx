@@ -6,7 +6,7 @@ var styles = {
 		flex: '0 0 33%'
 	},
 	borderRight: {
-		borderRight: '2px solid black'
+		borderRight: '2px solid #607D8B'
 	},
 	content: {
 		display: 'flex',
