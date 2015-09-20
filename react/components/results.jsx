@@ -1,8 +1,13 @@
 var Box = require('./box.jsx');
-var utils = require('../utils.js');
+var utils = require('../utils.js'),
+MagicMove = require('../../public/react-magic-move.js');
 
 // three equal sections...two divider lines and labels at the bottom
 // three divs that take up the entire horizontal space
+
+				// <div>
+				// 	<Box style={styles.newItem} data={this.props.newItem} ref="newItem" />
+				// </div>
 
 
 var styles = {
@@ -15,26 +20,28 @@ var styles = {
 	content: {
 		display: 'flex',
 		flex: '1 1 auto'
+	},
+	hide: {
+		display: 'none'
 	}
 };
 
 module.exports = React.createClass({
-	// positive is an array of elements, for each, make a box passing it as state
-
+	// first and second have refs...enough to know the starting point and position of all others
 	render: function() {
-		var positiveList = this.props.positive.map(function(el) {
+		var positiveList = this.props.positive.map(function(el, i) {
 			return (
-				<Box data={el} />
+				<Box data={el} key={el.Title} />
 			)
 		});
-		var negativeList = this.props.negative.map(function(el) {
+		var negativeList = this.props.negative.map(function(el, i) {
 			return (
-				<Box data={el} />
+				<Box data={el} key={el.Title} />
 			)
 		});
-		var neutralList = this.props.neutral.map(function(el) {
+		var neutralList = this.props.neutral.map(function(el, i) {
 			return (
-				<Box data={el} />
+				<Box data={el} key={el.Title} />
 			)
 		});
 

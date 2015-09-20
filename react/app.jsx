@@ -2,28 +2,6 @@ var Results = require('./components/results.jsx'),
 	Search = require('./components/search.jsx'),
 	Footer = require('./components/footer.jsx');
 
-var dummyData = [
-	{
-		title: 'Edmonton Oilers Win Stanley Cup',
-		source: 'tsn.ca',
-		url: 'http://tsn.ca/nhl',
-		keywords: 'hockey mcdavid edmonton',
-		sentiment: 0.5
-	},
-	{
-		title: 'Edmonton Oilers Win Stanley Cup',
-		source: 'tsn.ca',
-		url: 'http://tsn.ca/nhl',
-		sentiment: 0.8
-	},
-	{
-		title: 'Edmonton Oilers Win Stanley Cup',
-		source: 'tsn.ca',
-		url: 'http://tsn.ca/nhl',
-		sentiment: 0.2
-	}
-];
-
 var styles = {
 	root: {
 		display: 'flex',
@@ -108,19 +86,48 @@ module.exports = React.createClass({
 
 	insertItemIntoList: function(item) {
 		if (item.SentimentScore < 0.33) {
-			this.setState({negativeList: this.state.negativeList.concat(item)});
+			var flag = false;
+			this.state.negativeList.forEach(function(i) {
+				if (i.Title === item.Title) {
+					flag = true
+				}
+			});
+			if (!flag) this.setState({negativeList: this.state.negativeList.concat(item)});
+			// this.state.negativeList.unshift(item)
 		} else if (item.SentimentScore < 0.66) {
-			this.setState({neutralList: this.state.neutralList.concat(item)});
+			var flag = false;
+			this.state.neutralList.forEach(function(i) {
+				if (i.Title === item.Title) {
+					flag = true
+				}
+			});
+			// this.state.neutralList.unshift(item);
+			if (!flag) this.setState({neutralList: this.state.neutralList.concat(item)});
 		} else {
-			this.setState({positiveList: this.state.positiveList.concat(item)});
+			// this.state.positiveList.unshift(item);
+			var flag = false;
+			this.state.negativeList.forEach(function(i) {
+				if (i.Title === item.Title) {
+					flag = true
+				}
+			});
+			if (!flag) this.setState({positiveList: this.state.positiveList.concat(item)});
 		}
 	},
 
-	/*
-	
-	*/
+	itemIntoList: function(query) {
+		if (this.state.articleQueue.length === 0) {
+			this.request(query).then(this.process);
+		} else {
+			// pop the first, look at sentiment score, and append to a list
+			var item = this.state.articleQueue.shift();
+			this.insertItemIntoList(item);
+		}
+	},
+
 	produceArticle: function(query) {
 		// clear it all because a new search is made
+		// wait for it to clear before doing the new search
 		if (query !== this.state.currentQuery || this.state.currentQuery === null) {
 			this.setState({
 				currentQuery: query,
@@ -130,23 +137,9 @@ module.exports = React.createClass({
 				negativeList: [],
 				xNextUrl: null,
 				performanceCount: 10
-			}, function() {
-					if (this.state.articleQueue.length === 0) {
-						this.request(query).then(this.process);
-					} else {
-						// pop the first, look at sentiment score, and append to a list
-						var item = this.state.articleQueue.shift();
-						this.insertItemIntoList(item);
-					}
-			});
+			}, this.itemIntoList.bind(this, query));
 		} else {
-			if (this.state.articleQueue.length === 0) {
-				this.request(query).then(this.process);
-			} else {
-				// pop the first, look at sentiment score, and append to a list
-				var item = this.state.articleQueue.shift();
-				this.insertItemIntoList(item);
-			}
+			this.itemIntoList(query);
 		}
 	},
 

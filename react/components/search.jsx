@@ -8,7 +8,6 @@ var styles = {
 	},
 	header: {
 		flex: '0 1 auto',
-		borderBottom: '2px solid black',
 		textAlign: 'center'
 	},
 	banner: {
@@ -41,7 +40,7 @@ module.exports = React.createClass({
 		return (
 			<div style={styles.header}>
 				<div style={styles.banner}>Grind</div>
-				<input style={styles.search} onChange={this.handleChange} value={this.state.query} type="email" placeholder="apple iphone, isis, oil price" /><br />
+				<input style={styles.search} onChange={this.handleChange} value={this.state.query} type="email" placeholder="apple iphone, isis, oil price" />
 				<button onClick={this.produceArticle}>Article</button>
 			</div>
 		)
