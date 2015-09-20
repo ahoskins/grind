@@ -4,7 +4,6 @@ var styles = {
 	outer: {
 		border: '2px solid black',
 		borderRadius: 5,
-		position: 'relative',
 		height: 400,
 		cursor: 'pointer',
 		':hover': {
@@ -12,7 +11,8 @@ var styles = {
 		}
 	},
 	top: {
-		borderBottom: '1px solid black'
+		borderBottom: '1px solid black',
+		padding: 5
 	},
 	title: {
 		fontWeight: 'bold'
@@ -42,6 +42,8 @@ module.exports = Radium(React.createClass({
 
 	mouseOver: function(e) {
 		var $el = $(React.findDOMNode(this.refs.outer));
+		var pos = $el.css('position');
+		$el.css('position', 'relative');
 		$el.animate({
 			left: '-=10px',
 			top: '-=10px',
@@ -58,6 +60,9 @@ module.exports = Radium(React.createClass({
 			top: '+=10px',
 			height: '-=' + 20 + 'px',
 			width: '-=' + 20 + 'px'
+		}, function() {
+			// change position back to it resizes correctly
+			$el.css('position', 'static');
 		});
 	},
 

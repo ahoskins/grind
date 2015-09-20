@@ -1,20 +1,53 @@
 var Box = require('./box.jsx');
+var utils = require('../utils.js');
 
-// 1 - 6 results
+// three equal sections...two divider lines and labels at the bottom
+// three divs that take up the entire horizontal space
+
+
+var styles = {
+	third: {
+		flex: '1 1 auto',
+		display: 'flex'
+	},
+	borderRight: {
+		borderRight: '2px solid black'
+	},
+	content: {
+		display: 'flex',
+		flex: '1 1 auto'
+	}
+};
+
 module.exports = React.createClass({
-	// for each in data, create a box, always the same width
+	// positive is an array of elements, for each, make a box passing it as state
+	var positiveList = this.props.positive.map(function(el) {
+		return (
+			<Box data={el} />
+		)
+	});
+	var negativeList = this.props.negative.map(function(el) {
+		return (
+			<Box data={el} />
+		)
+	});
+	var neutralList = this.props.neutral.map(function(el) {
+		return (
+			<Box data={el} />
+		)
+	});
 
 	render: function() {
-		var boxes = this.props.data.map(function(result) {
-			return (
-				<div className="four columns"><Box data={result} /></div>
-			);
-		});
-
 		return (
-			<div className="container">
-				<div className="row">
-					{boxes}
+			<div style={styles.content}>
+				<div style={utils.m(styles.third, styles.borderRight)}>
+					{negativeList}
+				</div>
+				<div style={utils.m(styles.third, styles.borderRight)}>
+					{neutralList}
+				</div>
+				<div style={styles.third}>
+					{positiveList}
 				</div>
 			</div>
 		)
