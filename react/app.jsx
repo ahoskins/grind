@@ -60,43 +60,91 @@ module.exports = React.createClass({
 			neutralList: [],
 			negativeList: [],
 			performanceCount: 10,
-			xNextUrl: null
+			xNextUrl: null,
+			currentQuery: ''
 		}
 	},
 
 	/*
 	if xNextUrl add it to the request
-	decrement the performance score and set xNextUrl to null if a response DOES NOT have X-Next-Url
+	decrement the performance score and set xNextUrl to null if a response DOES NOT have NextUrl in JSON
 	*/
-	request: function() {
-		var extra = {};
-		if (xNextUrl !== null) {
-			extra['X-Next-Url'] = xNextUrl;
+	request: function(query) {
+		var deferred = Q.defer();
+		if (this.state.xNextUrl !== null) {
+			$.ajax(url + this.state.performanceCount + '/' + query, {
+				headers: {
+					'X-Next-Url': this.state.xNextUrl
+				}
+			}).done(function(data, status) {
+				deferred.resolve(data, status);
+			});
+		} else {
+			$.ajax(url + this.state.performanceCount + '/' + query).done(function(data, status) {
+				deferred.resolve(data, status);
+			});
 		}
-		$.get(url + performanceCount + '/' + query, extra, function(data, status) {
 
-		});
+		return deferred.promise;
 	},
 
+	process: function(d, s) {
+		// parse the articles into the queue
+		var data = JSON.parse(d);
+		this.setState({articleQueue: this.state.articleQueue.concat(data.NewsItems)});
+
+		// If NextUrl isn't there, decrement the performance and set xNextUrl == null in the state
+		if (data.NextUrl === null) {
+			this.setState({performanceCount: this.state.performanceCount - 1});
+			this.setState({xNextUrl: null});
+		} else {
+			this.setState({xNextUrl: data.NextUrl});
+		}
+
+		// take the first off the queue, and put into proper list
+		var item = this.state.articleQueue.shift();
+		this.insertItemIntoList(item);
+	},
+
+	insertItemIntoList: function(item) {
+		if (item.SentimentScore < 0.33) {
+			this.setState({negativeList: this.state.negativeList.concat(item)});
+		} else if (item.SentimentScore < 0.66) {
+			this.setState({neutralList: this.state.neutralList.concat(item)});
+		} else {
+			this.setState({positiveList: this.state.positiveList.concat(item)});
+		}
+	},
+
+	/*
+	
+	*/
 	produceArticle: function(query) {
+		// clear it all because a new search is made
+		if (query !== this.state.currentQuery) {
+			this.setState({
+				articleQueue: [],
+				positiveList: [],
+				neutralList: [],
+				negativeList: [],
+				currentQuery: query
+			});
+		}
+
 		// on first load, and on fast clicks maybe
-		if (articleQueue.length === 0) {
-			this.request();
+		if (this.state.articleQueue.length === 0) {
+			this.request(query).then(this.process);
 		} else {
 			// pop the first, look at sentiment score, and append to a list
-			var item = articleQueue.shift();
-
-			if (articleQueue.length === 0) {
-				// pro-actively request more articles
-				this.request();
-			}
+			var item = this.state.articleQueue.shift();
+			this.insertItemIntoList(item);
 		}
 	},
 
 	render: function() {
 		return (
 			<div style={styles.root}>
-				<Search handler={this.productArticle}/>
+				<Search handler={this.produceArticle}/>
 				<Results positive={this.state.positiveList} 
 				 negative={this.state.negativeList}
 				 neutral={this.state.neutralList} />
