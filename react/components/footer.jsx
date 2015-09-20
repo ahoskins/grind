@@ -4,7 +4,7 @@ var styles = {
 	footer: {
 		flex: '0 1 40px',
 		borderTop: '2px solid black',
-		backgroundColor: '#607D8B',
+		backgroundColor: '#B0BEC5',
 		display: 'flex'
 	},
 	children: {

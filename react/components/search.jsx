@@ -4,14 +4,15 @@ var styles = {
 	search: {
 		width: 300,
 		margin: '0 auto',
-		margin: 5
+		margin: 15
 	},
 	header: {
 		flex: '0 1 auto',
 		textAlign: 'center'
 	},
 	banner: {
-		backgroundColor: '#03A9F4'
+		backgroundColor: '#03A9F4',
+		fontSize: '2em'
 	}
 };
 
@@ -25,6 +26,11 @@ module.exports = React.createClass({
 	// update the state to reflect the search query
 	handleChange: function(e) {
 		this.setState({query: e.target.value});
+	},
+
+	componentWillReceiveProps: function(newProps) {
+		if (newProps.newQuery === null) return;
+		this.setState({query: newProps.newQuery});
 	},
 
 	// when a click is made, handle it in the parent

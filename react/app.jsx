@@ -39,7 +39,8 @@ module.exports = React.createClass({
 			negativeList: [],
 			performanceCount: 10,
 			xNextUrl: null,
-			currentQuery: null
+			currentQuery: null,
+			newQuery: null
 		}
 	},
 
@@ -85,37 +86,38 @@ module.exports = React.createClass({
 	},
 
 	insertItemIntoList: function(item) {
+		var flag = false;
+		this.state.negativeList.forEach(function(i) {
+			if (i.Title === item.Title) {
+				flag = true
+			}
+		});
+		this.state.neutralList.forEach(function(i) {
+			if (i.Title === item.Title) {
+				flag = true
+			}
+		});
+		this.state.negativeList.forEach(function(i) {
+			if (i.Title === item.Title) {
+				flag = true
+			}
+		});
+
 		if (item.SentimentScore < 0.33) {
-			var flag = false;
-			this.state.negativeList.forEach(function(i) {
-				if (i.Title === item.Title) {
-					flag = true
-				}
-			});
 			if (!flag) this.setState({negativeList: this.state.negativeList.concat(item)});
-			// this.state.negativeList.unshift(item)
 		} else if (item.SentimentScore < 0.66) {
-			var flag = false;
-			this.state.neutralList.forEach(function(i) {
-				if (i.Title === item.Title) {
-					flag = true
-				}
-			});
-			// this.state.neutralList.unshift(item);
 			if (!flag) this.setState({neutralList: this.state.neutralList.concat(item)});
 		} else {
-			// this.state.positiveList.unshift(item);
-			var flag = false;
-			this.state.negativeList.forEach(function(i) {
-				if (i.Title === item.Title) {
-					flag = true
-				}
-			});
 			if (!flag) this.setState({positiveList: this.state.positiveList.concat(item)});
 		}
 	},
 
 	itemIntoList: function(query) {
+		for (var o in this.state.articleQueue) {
+			if ($.isEmptyObject(o)) {
+				this.state.articleQueue.length = 0;
+			}
+		}
 		if (this.state.articleQueue.length === 0) {
 			this.request(query).then(this.process);
 		} else {
@@ -143,14 +145,27 @@ module.exports = React.createClass({
 		}
 	},
 
+	cb: function(string) {
+		string = string.substring(1);
+		// change some state that passes onto search
+		this.setState({
+			newQuery: string
+		}, 
+		function() {
+			this.produceArticle(string);
+		});
+
+	},
+
 	render: function() {
 		return (
 			<div style={styles.root}>
-				<Search handler={this.produceArticle}/>
+				<Search handler={this.produceArticle} newQuery={this.state.newQuery}/>
+				<Footer />
 				<Results positive={this.state.positiveList} 
 				 negative={this.state.negativeList}
-				 neutral={this.state.neutralList} />
-				<Footer />
+				 neutral={this.state.neutralList}
+				 cb={this.cb} />
 			</div>
 		)
 	}

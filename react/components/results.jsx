@@ -1,14 +1,5 @@
 var Box = require('./box.jsx');
-var utils = require('../utils.js'),
-MagicMove = require('../../public/react-magic-move.js');
-
-// three equal sections...two divider lines and labels at the bottom
-// three divs that take up the entire horizontal space
-
-				// <div>
-				// 	<Box style={styles.newItem} data={this.props.newItem} ref="newItem" />
-				// </div>
-
+var utils = require('../utils.js');
 
 var styles = {
 	third: {
@@ -21,40 +12,47 @@ var styles = {
 		display: 'flex',
 		flex: '1 1 auto'
 	},
-	hide: {
-		display: 'none'
+	box: {
+		backgroundColor: 'hsl(50%, 50%, 50%)',
+		transition: 'all 1250ms ease'
 	}
 };
 
 module.exports = React.createClass({
+
+	cb: function(string) {
+		this.props.cb(string);
+	},
+
 	// first and second have refs...enough to know the starting point and position of all others
 	render: function() {
+		var self = this;
 		var positiveList = this.props.positive.map(function(el, i) {
 			return (
-				<Box data={el} key={el.Title} />
+				<Box style={styles.box} data={el} cb={self.cb} key={el.Title} />
 			)
 		});
 		var negativeList = this.props.negative.map(function(el, i) {
 			return (
-				<Box data={el} key={el.Title} />
+				<Box style={styles.box} data={el} cb={self.cb} key={el.Title} />
 			)
 		});
 		var neutralList = this.props.neutral.map(function(el, i) {
 			return (
-				<Box data={el} key={el.Title} />
+				<Box style={styles.box} data={el} cb={self.cb} key={el.Title} />
 			)
 		});
 
 		return (
 			<div style={styles.content}>
 				<div style={utils.m(styles.third, styles.borderRight)}>
-					{negativeList}
+						{negativeList}
 				</div>
 				<div style={utils.m(styles.third, styles.borderRight)}>
-					{neutralList}
+						{neutralList}
 				</div>
 				<div style={styles.third}>
-					{positiveList}
+						{positiveList}
 				</div>
 			</div>
 		)
