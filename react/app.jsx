@@ -74,19 +74,30 @@ module.exports = React.createClass({
 	process: function(d, s) {
 		// parse the articles into the queue
 		var data = JSON.parse(d);
-		this.setState({articleQueue: this.state.articleQueue.concat(data.NewsItems)});
 
 		// If NextUrl isn't there, decrement the performance and set xNextUrl == null in the state
 		if (data.NextUrl === null) {
-			this.setState({performanceCount: this.state.performanceCount - 1});
-			this.setState({xNextUrl: null});
+			this.setState({
+				performanceCount: this.state.performanceCount - 1,
+				xNextUrl: null
+			});
 		} else {
 			this.setState({xNextUrl: data.NextUrl});
 		}
 
-		// take the first off the queue, and put into proper list
-		var item = this.state.articleQueue.shift();
-		this.insertItemIntoList(item);
+		if (data.NewsItems.length !== 0) {
+			// insert first item into list and rest into the queue
+			this.insertItemIntoList(data.NewsItems[0]);
+			this.setState({articleQueue: this.state.articleQueue.concat(data.NewsItems.slice(1))});
+		} else {
+			if (this.state.performanceCount < 0) {
+				// don't request again
+				alert('Sorry, no articles available!');
+				return;
+			} 
+			// didn't get anything, request and process again
+			this.request(this.state.currentQuery).then(this.process);
+		}
 	},
 
 	insertItemIntoList: function(item) {
@@ -117,6 +128,7 @@ module.exports = React.createClass({
 	},
 
 	itemIntoList: function(query) {
+		// make sure article queue 
 		for (var o in this.state.articleQueue) {
 			if ($.isEmptyObject(o)) {
 				this.state.articleQueue.length = 0;
