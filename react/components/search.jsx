@@ -6,12 +6,10 @@ var styles = {
 		margin: '0 auto',
 		margin: 15
 	},
-	header: {
-		flex: '0 1 auto',
+	container: {
 		textAlign: 'center'
 	},
 	banner: {
-		// backgroundColor: '#03A9F4',
 		fontSize: '1.5em',
 		padding: 5,
 		borderBottom: '2px solid grey'
@@ -58,7 +56,7 @@ module.exports = React.createClass({
 
 	render: function() {
 		return (
-			<div style={styles.header}>
+			<div className="flex-header" style={styles.container}>
 				<div style={styles.banner}>
 					<span>
 						<i style={styles.left} className="fa fa-github" onClick={this.ahoskins.bind(this, 'http://github.com/ahoskins/grind')}></i>

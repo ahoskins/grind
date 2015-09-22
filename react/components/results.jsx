@@ -2,15 +2,8 @@ var Box = require('./box.jsx');
 var utils = require('../utils.js');
 
 var styles = {
-	third: {
-		flex: '0 0 33%'
-	},
 	borderRight: {
 		borderRight: '2px solid #607D8B'
-	},
-	content: {
-		display: 'flex',
-		flex: '1 1 auto'
 	},
 	box: {
 		backgroundColor: 'hsl(50%, 50%, 50%)',
@@ -44,14 +37,14 @@ module.exports = React.createClass({
 		});
 
 		return (
-			<div style={styles.content}>
-				<div style={utils.m(styles.third, styles.borderRight)}>
+			<div className="flex-body display-flex">
+				<div className="flex-third" style={styles.borderRight}>
 						{negativeList}
 				</div>
-				<div style={utils.m(styles.third, styles.borderRight)}>
+				<div className="flex-third" style={styles.borderRight}>
 						{neutralList}
 				</div>
-				<div style={styles.third}>
+				<div className="flex-third">
 						{positiveList}
 				</div>
 			</div>

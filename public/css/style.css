@@ -2,6 +2,39 @@ html,
 body,
 #container {
   height: 100%;
-  margin: 0
-  font-family: Raleway;
+}
+
+.flex-footer {
+	flex: 0 1 40px;
+	-webkit-flex: 0 1 40px;
+}
+
+.flex-footer-child {
+	flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+}
+
+.flex-body {
+	flex: 1 1 auto;
+	-webkit-flex: 1 1 auto;
+}
+
+.display-flex {
+	display: flex; 
+	display: -webkit-flex;
+}
+
+.flex-third {
+	flex: 0 1 33%;
+	-webkit-flex: 0 1 33%;
+}
+
+.flex-header {
+	flex: 0 1 auto;
+	-webkit-flex: 0 1 auto;
+}
+
+.column-flow {
+	flex-flow: column;
+	-webkit-flex-flow: column;
 }

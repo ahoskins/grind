@@ -4,8 +4,6 @@ var Results = require('./components/results.jsx'),
 
 var styles = {
 	root: {
-		display: 'flex',
-    	flexFlow: 'column',
     	height: '100%'
 	}
 }
@@ -157,9 +155,10 @@ module.exports = React.createClass({
 
 	},
 
+
 	render: function() {
 		return (
-			<div style={styles.root}>
+			<div className="display-flex column-flow" style={styles.root}>
 				<Search handler={this.produceArticle} newQuery={this.state.newQuery}/>
 				<Footer />
 				<Results positive={this.state.positiveList} 
