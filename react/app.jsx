@@ -38,7 +38,8 @@ module.exports = React.createClass({
 			performanceCount: 10,
 			xNextUrl: null,
 			currentQuery: null,
-			newQuery: null
+			newQuery: null,
+			requestInProgress: false
 		}
 	},
 
@@ -47,17 +48,22 @@ module.exports = React.createClass({
 	decrement the performance score and set xNextUrl to null if a response DOES NOT have NextUrl in JSON
 	*/
 	request: function(query) {
+		var self = this;
 		var deferred = Q.defer();
+		// add header for next-url if it's there
+		this.setState({requestInProgress: true});
 		if (this.state.xNextUrl !== null) {
 			$.ajax(url + this.state.performanceCount + '/' + query, {
 				headers: {
 					'X-Next-Url': this.state.xNextUrl
 				}
 			}).done(function(data, status) {
+				self.setState({requestInProgress: false});
 				deferred.resolve(data, status);
 			});
 		} else {
 			$.ajax(url + this.state.performanceCount + '/' + query).done(function(data, status) {
+				self.setState({requestInProgress: false});
 				deferred.resolve(data, status);
 			});
 		}
@@ -159,7 +165,7 @@ module.exports = React.createClass({
 	render: function() {
 		return (
 			<div className="display-flex column-flow" style={styles.root}>
-				<Search handler={this.produceArticle} newQuery={this.state.newQuery}/>
+				<Search handler={this.produceArticle} newQuery={this.state.newQuery} requestInProgress={this.state.requestInProgress}/>
 				<Footer />
 				<Results positive={this.state.positiveList} 
 				 negative={this.state.negativeList}

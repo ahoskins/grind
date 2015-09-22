@@ -67,7 +67,10 @@ module.exports = React.createClass({
 					</span>
 				</div>
 				<input style={styles.search} onChange={this.handleChange} value={this.state.query} type="email" placeholder="search for news and blogs" />
-				<button onClick={this.produceArticle}>Article</button>
+				{this.props.requestInProgress ? 
+					<button onClick={this.produceArticle} disabled={this.props.requestInProgress}>..Loading...</button> :
+					<button onClick={this.produceArticle} disabled={this.props.requestInProgress}>Pop Article</button>
+				}
 			</div>
 		)
 	}
