@@ -36,9 +36,13 @@ module.exports = React.createClass({
 		this.setState({query: e.target.value});
 	},
 
+	// always make sure the query shown matches
 	componentWillReceiveProps: function(newProps) {
-		if (newProps.newQuery === null) return;
-		this.setState({query: newProps.newQuery});
+		if (newProps.query === null) {
+			this.setState({query: null});
+		} else {
+			this.setState({query: newProps.query});
+		}
 	},
 
 	// when a click is made, handle it in the parent

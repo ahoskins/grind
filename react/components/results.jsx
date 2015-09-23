@@ -14,7 +14,7 @@ var styles = {
 module.exports = React.createClass({
 
 	cb: function(string) {
-		this.props.cb(string);
+		this.props.handler(string);
 	},
 
 	// first and second have refs...enough to know the starting point and position of all others

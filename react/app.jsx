@@ -8,24 +8,6 @@ var styles = {
 	}
 }
 
-// for .NET
-//   - sort the results in order of sentiment!
-
-// Things to figure out
-// 
-// three articles looks good
-// 	- map sentiment score to a certain color/shade
-//  - mouse hover increases the size, or at least the color changes a bit
-//  - top part of box (title, source, link clicks to url)
-//  - bottom part of box (summary, sentiment score)
-
-// - hook up search to Gind.net API, return data, and fill
-
-// data flows down
-//   data from node.js comes in here as props for Results
-// events flow up
-
-// request happens here, and passes new data onto results
 var url = 'http://grind.cloudapp.net/news/';
 
 module.exports = React.createClass({
@@ -38,7 +20,6 @@ module.exports = React.createClass({
 			performanceCount: 10,
 			xNextUrl: null,
 			currentQuery: null,
-			newQuery: null,
 			requestInProgress: false
 		}
 	},
@@ -144,6 +125,9 @@ module.exports = React.createClass({
 	},
 
 	produceArticle: function(query) {
+		if (query[0] === '#') {
+			query = query.slice(1);
+		}
 		// clear it all because a new search is made
 		// wait for it to clear before doing the new search
 		if (query !== this.state.currentQuery || this.state.currentQuery === null) {
@@ -161,28 +145,15 @@ module.exports = React.createClass({
 		}
 	},
 
-	cb: function(string) {
-		string = string.substring(1);
-		// change some state that passes onto search
-		this.setState({
-			newQuery: string
-		}, 
-		function() {
-			this.produceArticle(string);
-		});
-
-	},
-
-
 	render: function() {
 		return (
 			<div className="display-flex column-flow" style={styles.root}>
-				<Search handler={this.produceArticle} newQuery={this.state.newQuery} requestInProgress={this.state.requestInProgress}/>
+				<Search handler={this.produceArticle} query={this.state.currentQuery} requestInProgress={this.state.requestInProgress}/>
 				<Footer />
 				<Results positive={this.state.positiveList} 
 				 negative={this.state.negativeList}
 				 neutral={this.state.neutralList}
-				 cb={this.cb} />
+				 handler={this.produceArticle} />
 			</div>
 		)
 	}
