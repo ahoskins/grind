@@ -5,7 +5,7 @@ grind is an experiment to allow viewing a spectrum of news and blogs, grouped by
 
 This project was done in 36 hours, and was a submission for Hack the North 2015 in Waterloo, Canada.
 
-There is also an agnostic, RESTful backend written in C#, at [grind-back](github.com/udeyrishi/grind-back).
+There is also an agnostic, RESTful backend written in C#, at [grind-back](https://github.com/udeyrishi/grind-back).
 
 Check out the [demo](http://www.grindonline.co) (forgive the slow page load, the Dyno is probably sound asleep :sleeping:)
 
